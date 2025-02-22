@@ -137,7 +137,20 @@ Show the best selling item by value.
   <summary>SQL Query</summary>
 
 ```
-
+SELECT
+p.ProductID as 'Product ID',
+p.Name as 'Product Name',
+SUM(sod.UnitPrice * sod.OrderQty) as 'Qty x UnitPrice'
+FROM Product as p
+JOIN SalesOrderDetail as sod
+ON (p.ProductID = sod.ProductID)
+JOIN SalesOrderHeader as soh
+ON (sod.SalesOrderID = soh.SalesOrderID)
+JOIN Customer as c
+ON (soh.CustomerID = c.CustomerID)
+GROUP BY p.ProductID
+ORDER BY SUM(sod.UnitPrice * sod.OrderQty) DESC
+LIMIT 1
 ```  
 </details>
 
