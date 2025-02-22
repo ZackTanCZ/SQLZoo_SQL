@@ -50,7 +50,14 @@ ON (cadds.AddressID = oadds.AddressID)
 LEFT JOIN ShippingAddress as sadds
 ON (oadds.CustomerID = sadds.CustomerID)
 ORDER BY sadds.City DESC
-```  
+```
+
+> The approach to this question is create two CTEs (Common Table Expression).\
+> The first CTE 'OfficeAddress' contains a table for **main office addresses** in Dallas.\
+> The second CTE 'ShippingAddress' contains a table for **shipping addresses** in Dallas.\
+> Finally the customer's infomation is merged with the two CTEs through a series of JOINs.  
+
+
 </details>
 
 <details>
@@ -76,7 +83,10 @@ GROUP BY
     c.CustomerID, c.FirstName, c.CompanyName
 ORDER BY
     MAX(CASE WHEN ca.AddressType = 'Shipping' THEN a.City END) DESC;
-```  
+```
+
+> Generated with Gemini
+>
 </details>
 
 
@@ -89,7 +99,18 @@ C) Sum of OrderQty*ListPrice
   <summary>SQL Query</summary>
 
 ```
-
+SELECT 
+soh.SalesOrderID,
+soh.SubTotal as 'A',
+SUM(sod.UnitPrice * sod.OrderQty) as 'B',
+SUM(p.ListPrice * sod.OrderQty) as 'C'
+FROM SalesOrderHeader soh
+JOIN SalesOrderDetail sod
+ON (soh.SalesOrderID = sod.SalesOrderID)
+JOIN Product as p
+ON (sod.ProductID = p.ProductID)
+GROUP BY soh.SalesOrderID
+ORDER BY soh.SalesOrderID ASC
 ```  
 </details>
 
