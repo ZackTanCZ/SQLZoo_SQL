@@ -91,11 +91,12 @@ ORDER BY
 
 
 ## Question 2
-For each order show the SalesOrderID and SubTotal calculated three ways:
-A) From the SalesOrderHeader
-B) Sum of OrderQty*UnitPrice
+For each order show the SalesOrderID and SubTotal calculated three ways:\
+A) From the SalesOrderHeader\
+B) Sum of OrderQty*UnitPrice\
 C) Sum of OrderQty*ListPrice 
 
+<details>
   <summary>SQL Query</summary>
 
 ```
@@ -111,7 +112,9 @@ JOIN Product as p
 ON (sod.ProductID = p.ProductID)
 GROUP BY soh.SalesOrderID
 ORDER BY soh.SalesOrderID ASC
-```  
+```
+> The SubTotal computed in (B) and (C) differs from (A)\
+> This is because I'm not familiar with the Componenets of SubTotal
 </details>
 
 <details>
@@ -125,6 +128,7 @@ ORDER BY soh.SalesOrderID ASC
 ## Question 3
 Show the best selling item by value. 
 
+<details>
   <summary>SQL Query</summary>
 
 ```
@@ -143,6 +147,7 @@ Show the best selling item by value.
 ## Question 4
 Show how many orders are in the following ranges (in $): 
 
+<details>
   <summary>SQL Query</summary>
 
 ```
