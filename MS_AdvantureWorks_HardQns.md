@@ -128,6 +128,11 @@ ORDER BY soh.SalesOrderID ASC
 ## Question 3
 Show the best selling item by value. 
 
+>[!NOTE]
+> What is considered 'Best Selling'?\
+> What metric is 'value' referring to (Unit Price, List Price)?\
+> The assumption is that 'value' is refered to as **OrderQty** multipled by **Unit Price**.
+
 <details>
   <summary>SQL Query</summary>
 
