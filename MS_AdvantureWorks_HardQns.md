@@ -1,6 +1,10 @@
 # [Hard Questions](https://sqlzoo.net/wiki/AdventureWorks_hard_questions)
 ## Question 1
-For every customer with a 'Main Office' in Dallas show AddressLine1 of the 'Main Office' and AddressLine1 of the 'Shipping' address - if there is no shipping address leave it blank. Use one row per customer.
+For every customer with a 'Main Office' in Dallas\
+show AddressLine1 of the 'Main Office'\
+show AddressLine1 of the 'Shipping' address (if there is no shipping address leave it blank).\
+Use one row per customer.
+
 <details>
   <summary>SQL Query</summary>
 
@@ -163,7 +167,15 @@ LIMIT 1
 </details>
 
 ## Question 4
-Show how many orders are in the following ranges (in $): 
+Show how many orders are in the following ranges (in $):\
+(A): 0 -99\
+(B): 100 - 999\
+(C): 1000 - 9999\
+(D): 10,000 - 
+
+>[!NOTE]
+> What is an 'Order'?\
+> Is it referring to **single** SalesOrderHeader or SalesOrderDetail?
 
 <details>
   <summary>SQL Query</summary>
@@ -180,4 +192,30 @@ Show how many orders are in the following ranges (in $):
 
 ```  
 </details>
+
+## Question 5
+Identify the three most important cities.\
+Show the break down of top level product category against city.
+
+>[!NOTE]
+> How do we consider an city important?\
+> what is a 'top level product category'?
+
+<details>
+  <summary>SQL Query</summary>
+
+```
+
+```  
+</details>
+
+<details>
+  <summary>Optimised SQL Query</summary>
+
+```
+
+```  
+</details>
+
+
 
