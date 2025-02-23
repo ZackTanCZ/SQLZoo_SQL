@@ -274,8 +274,6 @@ ON (p.ProductCategoryID = pc.ProductCategoryID)
 WHERE adds.City IN (SELECT TopThreeCities.City FROM TopThreeCities)
 GROUP BY adds.City,pc.Name
 ORDER BY soh.SalesOrderID DESC
-
-
 ```  
 </details>
 
