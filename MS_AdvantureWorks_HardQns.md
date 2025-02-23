@@ -285,7 +285,9 @@ The CTE returns a Table of the **three** cities with the highest total 'SubTotal
 
 <details>
   <summary>Expected Query Output</summary>
-  
+
+  ![image](https://github.com/user-attachments/assets/14235940-ac6a-45a1-80b2-b12a3a37045e)
+
 </details>
 
 
