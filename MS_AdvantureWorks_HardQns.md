@@ -122,11 +122,8 @@ ORDER BY soh.SalesOrderID ASC
 </details>
 
 <details>
-  <summary>Optimised SQL Query</summary>
+  <summary>Approach to SQL Query</summary>
 
-```
-
-```  
 </details>
 
 ## Question 3
@@ -159,11 +156,8 @@ LIMIT 1
 </details>
 
 <details>
-  <summary>Optimised SQL Query</summary>
+  <summary>Approach to SQL Query</summary>
 
-```
-
-```  
 </details>
 
 ## Question 4
@@ -175,22 +169,37 @@ Show how many orders are in the following ranges (in $):\
 
 >[!NOTE]
 > What is an 'Order'?\
-> Is it referring to **single** SalesOrderHeader or SalesOrderDetail?
+> Is it referring to **single** SalesOrderHeader or SalesOrderDetail?\
+>The assumption is to use the **'SubTotal' column** in each **SalesOrderHeader** to group the records.  
 
 <details>
   <summary>SQL Query</summary>
 
 ```
-
+With CategoryTable AS (
+SELECT
+CASE 
+WHEN soh.SubTotal BETWEEN 0 AND 99 THEN '0-99'
+WHEN soh.SubTotal BETWEEN 100 AND 999 THEN '100-999'
+WHEN soh.SubTotal BETWEEN 1000 AND 9999 THEN '1000-9999'
+ELSE '10000-'
+END as 'category', 
+soh.SubTotal as 'values'
+FROM SalesOrderHeader as soh
+ORDER BY soh.SubTotal ASC
+)
+Select
+category as 'Category',
+COUNT(*) as 'No. of Rows' , 
+SUM(CategoryTable.values) as 'Total Value'
+FROM CategoryTable
+GROUP BY Category
 ```  
 </details>
 
 <details>
-  <summary>Optimised SQL Query</summary>
+  <summary>Approach to SQL Query</summary>
 
-```
-
-```  
 </details>
 
 ## Question 5
@@ -212,9 +221,6 @@ Show the break down of top level product category against city.
 <details>
   <summary>Optimised SQL Query</summary>
 
-```
-
-```  
 </details>
 
 
