@@ -245,7 +245,8 @@ Show the break down of top level product category against city.
 ```
 With TopThreeCities AS (
 SELECT 
-adds.City as 'City'
+adds.City as 'City',
+SUM(soh.SubTotal)
 FROM Address as adds
 JOIN CustomerAddress as cadds
 ON (adds.AddressID = cadds.AddressID)
@@ -255,6 +256,24 @@ GROUP BY adds.City
 ORDER BY SUM(soh.SubTotal) DESC
 LIMIT 3
 )
+SELECT 
+adds.City as 'City',
+pc.Name as 'Product Category',
+COUNT(pc.Name)
+FROM Address as adds
+JOIN CustomerAddress as cadds
+ON (adds.AddressID = cadds.AddressID)
+JOIN SalesOrderHeader as soh
+ON (cadds.CustomerID = soh.CustomerID)
+JOIN SalesOrderDetail as sod
+ON (soh.SalesOrderID = sod.SalesOrderID)
+JOIN Product as p
+ON (sod.ProductID = p.ProductID)
+JOIN ProductCategory as pc
+ON (p.ProductCategoryID = pc.ProductCategoryID)
+WHERE adds.City IN (SELECT TopThreeCities.City FROM TopThreeCities)
+GROUP BY adds.City,pc.Name
+ORDER BY soh.SalesOrderID DESC
 
 
 ```  
