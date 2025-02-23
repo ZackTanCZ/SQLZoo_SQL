@@ -93,6 +93,13 @@ ORDER BY
 >
 </details>
 
+<details>
+  <summary>Expected Query Output</summary>
+  
+  ![image](https://github.com/user-attachments/assets/33c1b609-ee37-4f24-abf1-d7913ce63410)
+
+</details>
+
 
 ## Question 2
 For each order show the SalesOrderID and SubTotal calculated three ways:\
@@ -123,6 +130,13 @@ ORDER BY soh.SalesOrderID ASC
 
 <details>
   <summary>Approach to SQL Query</summary>
+
+</details>
+
+<details>
+  <summary>Expected Query Output</summary>
+
+  ![image](https://github.com/user-attachments/assets/79faf8ec-01de-4a3b-9d89-c7878672a3c9)
 
 </details>
 
@@ -157,6 +171,13 @@ LIMIT 1
 
 <details>
   <summary>Approach to SQL Query</summary>
+
+</details>
+
+<details>
+  <summary>Expected Query Output</summary>
+
+  ![image](https://github.com/user-attachments/assets/f5a9d380-add1-4b42-b6aa-9d667c75b5ed)
 
 </details>
 
@@ -202,26 +223,52 @@ GROUP BY Category
 
 </details>
 
+<details>
+  <summary>Expected Query Output</summary>
+
+  ![image](https://github.com/user-attachments/assets/3ea8cd78-f3ec-445e-9167-dee4a9a6d97a)
+
+</details>
+
 ## Question 5
 Identify the three most important cities.\
 Show the break down of top level product category against city.
 
 >[!NOTE]
 > How do we consider an city important?\
+> It is the city with the highest 'SubTotal'?\
 > what is a 'top level product category'?
 
 <details>
   <summary>SQL Query</summary>
 
 ```
+With TopThreeCities AS (
+SELECT 
+adds.City as 'City'
+FROM Address as adds
+JOIN CustomerAddress as cadds
+ON (adds.AddressID = cadds.AddressID)
+JOIN SalesOrderHeader as soh
+ON (cadds.CustomerID = soh.CustomerID)
+GROUP BY adds.City
+ORDER BY SUM(soh.SubTotal) DESC
+LIMIT 3
+)
+
 
 ```  
 </details>
 
 <details>
-  <summary>Optimised SQL Query</summary>
+  <summary>Approach to SQL Query</summary>
+The CTE returns a Table of the **three** cities with the highest total 'SubTotal'\
 
 </details>
 
+<details>
+  <summary>Expected Query Output</summary>
+  
+</details>
 
 
