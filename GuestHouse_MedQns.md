@@ -125,12 +125,19 @@ How many guests? Show the number of guests in the hotel on the night of 2016-11-
   <summary>SQL Query</summary>
 
 ```
-  
+SELECT 
+sum(occupants)
+FROM booking as bk
+WHERE bk.booking_date <= '2016-11-21' AND 
+(bk.booking_date + INTERVAL bk.nights DAY) > '2016-11-21'
+ORDER BY (bk.booking_date + INTERVAL bk.nights DAY) DESC  
 ```
 
 </details>
 
 <details>
   <summary>Expected SQL Output</summary>
+
+![image](https://github.com/user-attachments/assets/6285949f-754d-46ae-829a-102bc7298817)
 
 </details>
