@@ -72,13 +72,27 @@ Show all days in the correct order.
 <details>  
   <summary>SQL Query</summary>
 
-
+```
+SELECT
+DATE_FORMAT(bk.booking_date,"%Y-%m-%d") as 'BookIn Date',
+bk.booking_id,
+bk.room_no,
+SUM(CASE WHEN bk.room_no < 200 THEN 1 ELSE 0 END) as '1st',
+SUM(CASE WHEN bk.room_no BETWEEN 200 AND 299 THEN 1 ELSE 0 END) as '2nd',
+SUM(CASE WHEN bk.room_no >= 300 THEN 1 ELSE 0 END) as '3rd'
+FROM booking as bk
+WHERE bk.booking_date BETWEEN '2016-11-14' 
+AND ('2016-11-14' + INTERVAL 6 DAY)
+GROUP BY bk.booking_date
+ORDER BY bk.booking_date ASC, room_no ASC
+```
 
 </details>
 
 <details>  
-  <summary>SQL Query</summary>
+  <summary>Expected SQL Output</summary>
 
+![image](https://github.com/user-attachments/assets/1fdec9d1-4afa-4b3c-a773-286be6cc0a8e)
 
 
 </details>
