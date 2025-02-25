@@ -60,7 +60,7 @@ ORDER BY mt.lName ASC
 <details>  
   <summary>Expected SQL Output</summary>
 
-![image](https://github.com/user-attachments/assets/06e99ff8-3cbe-4ebc-8a41-ce2250925b1b)
+![image](https://github.com/user-attachments/assets/b71e6e13-cb44-432e-8bc5-3cc2830370bd)
 
 
 </details>
@@ -93,8 +93,7 @@ ORDER BY bk.booking_date ASC, room_no ASC
 <details>  
   <summary>Expected SQL Output</summary>
 
-![Uploading image.png…]()
-
+![image](https://github.com/user-attachments/assets/d8acdfe3-37e7-4b7e-8215-eebd17d089ce)
 
 
 </details>
