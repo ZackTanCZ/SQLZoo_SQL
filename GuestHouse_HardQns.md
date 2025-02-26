@@ -104,17 +104,34 @@ List the rooms that are **free** on the day **25th Nov 2016**.
 <details>  
   <summary>SQL Query</summary>
 
+```
+WITH NoRoom AS (
+SELECT
+bk.room_no as 'room',
+bk.booking_id,
+DATE_FORMAT(bk.booking_date,"%d/%m/%Y") as 'ChkIn',
+bk.nights,
+DATE_FORMAT((bk.booking_date + INTERVAL bk.nights DAY),"%d/%m/%Y") as 'ChkOut'
+FROM booking as bk
+WHERE ((bk.booking_date + INTERVAL bk.nights DAY) > '2016-11-25' AND
+bk.booking_date <= '2016-11-25')
+ORDER BY room ASC
+)
 
+SELECT
+DISTINCT(bk.room_no) as 'room'
+FROM booking  as bk
+WHERE bk.room_no NOT IN  (SELECT room FROM NoRoom)
+```
 
 </details>
 
 <details>  
-  <summary>SQL Query</summary>
+  <summary>Expected SQL Output</summary>
 
-
+![image](https://github.com/user-attachments/assets/0a076a93-3c8c-42e1-9cc3-a1c591ff1ca8)
 
 </details>
-
 
 
 ## Question 4 - Single room for three nights required.
