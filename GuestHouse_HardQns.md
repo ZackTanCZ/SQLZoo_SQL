@@ -159,14 +159,81 @@ Money is collected from guests when they leave.\
 For each Thursday in November and December 2016, show the total amount of money collected from the previous Friday to that day, inclusive. 
 
 <details>  
-  <summary>SQL Query</summary>
+  <summary>SQL Query [WIP]</summary>
+
+```
+WITH ExtraChargesTbl AS (
+SELECT 
+bk.room_no as 'rmno',
+(bk.booking_date + 
+INTERVAL bk.nights DAY) as 'ChkOut',
+SUM(e.amount) as 'ExtraCharges'
+FROM booking as bk
+JOIN extra as e
+ON (bk.booking_id = e.booking_id)
+WHERE (bk.booking_date + 
+INTERVAL bk.nights DAY) BETWEEN '2016-11-01' AND ('2016-11-01' + INTERVAL 2 MONTH)
+GROUP BY bk.room_no, (bk.booking_date + INTERVAL bk.nights DAY)  
+ORDER BY (bk.booking_date + INTERVAL bk.nights DAY) DESC
+),
+RoomChargesTbl AS (
+SELECT 
+bk.room_no as 'rmno',
+bk.nights as 'nights',
+bk.booking_date as 'ChkIn',
+(bk.booking_date + 
+INTERVAL bk.nights DAY) as 'ChkOut',
+r.amount as 'RoomCharge'
+FROM booking as bk
+JOIN rate as r
+ON (bk.room_type_requested = r.room_type AND bk.occupants = r.occupancy)
+WHERE (bk.booking_date + 
+INTERVAL bk.nights DAY) BETWEEN '2016-11-01' AND ('2016-11-01' + INTERVAL 2 MONTH)
+ORDER BY (bk.booking_date + INTERVAL bk.nights DAY) DESC
+),
+RoomBookings AS (
+SELECT
+rc.rmno as 'Room No.',
+rc.Chkin as 'ChkInDate',
+rc.ChkOut as 'ChkOutDate', 
+rc.nights as 'nights',
+rc.RoomCharge as 'Room Charge',
+COALESCE(ec.ExtraCharges,0) as 'Extra Charges',
+((rc.nights * rc.RoomCharge) + COALESCE(ec.ExtraCharges,0)) as 'TotalCharge'
+FROM RoomChargesTbl as rc
+LEFT JOIN ExtraChargesTbl as ec
+ON (rc.rmno = ec.rmno AND rc.ChkOut = ec.ChkOut)
+ORDER BY rc.ChkOut ASC
+),
+ThursTbl AS (
+SELECT 
+DISTINCT(DAYOFWEEK(rb.ChkOutDate)) as 'thursday_date',
+rb.ChkOutDate as 'ThursOfWeek'
+FROM RoomBookings as rb
+WHERE DAYOFWEEK(rb.ChkOutDate) = 5
+)
 
 
+SELECT 
+tt.ThursOfWeek,
+/*rb.ChkOutDate,*/
+SUM(rb.TotalCharge)
+FROM RoomBookings as rb
+LEFT JOIN ThursTbl as tt
+ON (rb.ChkOutDate BETWEEN (tt.ThursOfWeek - INTERVAL 6 WEEK) AND tt.ThursOfWeek)
+GROUP BY tt.ThursOfWeek
+```
+This question is pretty hard but this is the approach\
+1. Compute a table and find every distinct **THURSDAY** within Nov 2016, Dec 2016 (Table A)\
+2. Compute table with the final rooms charges (nights * rates + extra rates) & Checkout dates (Table B)\
+3. Join both tables with the business logic - Catergorise each **CheckOutDate** into their week (which begins with the previous friday & present thursday)\
+4. Group all the transaction into their week and sum the final room charges.\
 
+The above SQL query is correct (Syntax wise) but the logic is WIP.
 </details>
 
 <details>  
-  <summary>SQL Query</summary>
+  <summary>Expected SQL Output</summary>
 
 
 
